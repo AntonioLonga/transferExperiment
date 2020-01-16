@@ -34,7 +34,7 @@ def execute():
     for i in [10,100,500,1000,2000,3000,5000,10000,20000]:
         now = time.time()
         tmp_data = unique_data[0:i]
-        auto = mt.automorphism_groups(g,tmp_data)
+        auto = mt.automorphism_groups2(g,tmp_data)
         time_elapsed = time.time() - now
         times.append(time_elapsed)
         print("gruppi",len(auto))
