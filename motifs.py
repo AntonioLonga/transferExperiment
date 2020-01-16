@@ -53,7 +53,11 @@ def subgraph_neighbors(g,nodes):
 
 
 
+
+
 def automorphism_groups(g,graphs):
+    print("len(graphs)",len(graphs))
+
     unique_graphs = [[graphs[0]]]
     for i in range(1,len(graphs)):
         add = True
@@ -61,10 +65,44 @@ def automorphism_groups(g,graphs):
             uniq_g = unique_graphs[j][0]
             g1 = nx.subgraph(g,graphs[i])
             g2 = nx.subgraph(g,uniq_g)
-            if (nx.is_isomorphic(g1,g2)):
+            #if (len(g2.edges) == len(g1.edges)):
+            flag = nx.is_isomorphic(g1,g2)
+            if (flag):
                 add = False
                 unique_graphs[j].append(graphs[i])
         if (add):
             unique_graphs.append([graphs[i]])
-            
+
+           
+    return(unique_graphs)
+
+
+
+
+def automorphism_groups2(g,graphs):
+    print("len(graphs)",len(graphs))
+
+    unique_graphs = [[graphs[0]]]
+    for i in range(1,len(graphs)):
+        add = True
+        for j in range(len(unique_graphs)):
+            uniq_g = unique_graphs[j][0]
+            g1 = nx.subgraph(g,graphs[i])
+            g2 = nx.subgraph(g,uniq_g)
+            g1 = nx.subgraph(g,graphs[i])
+            ds1 = [d for n, d in g1.degree()]
+            if (list(np.sort(ds1)) == [1,2,2,2,3] or list(np.sort(ds1)) == [2,2,2,3,3]):
+                # usa isomorphism
+                if (nx.is_isomorphic(g1,g2)):
+                    add = False
+                    unique_graphs[j].append(graphs[i])
+            else:
+                # usa deg seq
+                if (nx.faster_could_be_isomorphic(g1,g2)):
+                    add = False
+                    unique_graphs[j].append(graphs[i])
+        if (add):
+            unique_graphs.append([graphs[i]])
+
+           
     return(unique_graphs)
